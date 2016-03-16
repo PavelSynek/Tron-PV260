@@ -1,1 +1,4 @@
 *.idea
+/nbproject
+manifest.mf
+build.xml
