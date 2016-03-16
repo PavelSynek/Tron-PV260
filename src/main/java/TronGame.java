@@ -4,12 +4,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TronGame extends Core implements KeyListener, MouseListener, MouseMotionListener {
-	private Player player1;
-	private Player player2;
+	private List<Player> players;
 
 	public static final int MOVE_AMOUNT = 5;
 	public static final int LINE_SIZE = 10;
@@ -22,8 +21,12 @@ public class TronGame extends Core implements KeyListener, MouseListener, MouseM
 		w.addMouseListener(this);
 		w.addMouseMotionListener(this);
 
-		player1 = new Player(new Point(40, 40), Direction.RIGHT, Color.green);
-		player2 = new Player(new Point(600, 440), Direction.LEFT, Color.red);
+		Player player1 = new Player(new Point(40, 40), Direction.RIGHT, Color.green);
+		Player player2 = new Player(new Point(600, 440), Direction.LEFT, Color.red);
+
+		players = new ArrayList<Player>();
+		players.add(player1);
+		players.add(player2);
 	}
 
 	public static void main(String[] args) {
@@ -31,22 +34,26 @@ public class TronGame extends Core implements KeyListener, MouseListener, MouseM
 	}
 
 	public void draw(Graphics2D graphics) {
-		movePlayer(player1);
-		movePlayer(player2);
+		movePlayers(players);
 
-		if (isCollision(Arrays.asList(player1, player2))) {
+		if (isCollision(players)) {
 			System.exit(0);
 		}
 
-		player1.getPath().add(player1.getPosition());
-		player2.getPath().add(player2.getPosition());
+		addPlayerPaths(players);
 
 		drawBackground(graphics);
 
-		drawPlayers(graphics, Arrays.asList(player1, player2));
+		drawPlayers(graphics, players);
 	}
 
-	public void drawBackground(Graphics2D graphics) {
+	private void addPlayerPaths(List<Player> players) {
+		for (Player player : players) {
+			player.getPath().add(player.getPosition());
+		}
+	}
+
+	private void drawBackground(Graphics2D graphics) {
 		graphics.setColor(Color.BLACK);
 		graphics.fillRect(0, 0, sm.getWidth(), sm.getHeight());
 	}
@@ -72,6 +79,12 @@ public class TronGame extends Core implements KeyListener, MouseListener, MouseM
 			}
 		}
 		return false;
+	}
+
+	private void movePlayers(List<Player> players) {
+		for (Player player : players) {
+			movePlayer(player);
+		}
 	}
 
 	private void movePlayer(Player player) {
@@ -145,6 +158,8 @@ public class TronGame extends Core implements KeyListener, MouseListener, MouseM
 			}
 		}
 	}
+
+	private void
 
 	public void keyReleased(KeyEvent e) {
 
