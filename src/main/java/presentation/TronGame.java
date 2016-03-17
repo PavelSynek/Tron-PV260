@@ -26,19 +26,21 @@ public class TronGame extends Game {
 		tronModel.addPlayer(player1, new KeyboardControls(KeyEvent.VK_UP, KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT));
 		tronModel.addPlayer(player2, new KeyboardControls(KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A));
 		tronModel.addPlayer(player3, new KeyboardControls(KeyEvent.VK_U, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_H));
-
 	}
 
 	private TronModel.CollisionListener collisionListener = () -> getEnvironment().exit();
 
-	public void draw(Graphics2D graphics) {
+	public void tick(long timePassed) {
 		tronModel.movePlayers();
+	}
 
-
-
+	public void draw(Graphics2D graphics) {
 		drawPlayers(graphics, tronModel.getPlayers());
 	}
 
+	public void keyPressed(KeyEvent e) {
+		tronModel.processEvent(e);
+	}
 
 	private void drawPlayers(Graphics2D graphics, List<Player> players) {
 		for (Player player : players) {
@@ -47,14 +49,5 @@ public class TronGame extends Game {
 				graphics.fillRect(point.x, point.y, LINE_SIZE, LINE_SIZE);
 			}
 		}
-	}
-
-
-	public void keyPressed(KeyEvent e) {
-		tronModel.processEvent(e);
-	}
-
-	public void update(long timePassed) {
-
 	}
 }

@@ -61,7 +61,7 @@ public class Engine implements KeyListener, MouseListener, Environment {
 		while (running) {
 			long timePassed = System.currentTimeMillis() - totalTime;
 			totalTime += timePassed;
-			engineCallbacks.update(timePassed);
+			engineCallbacks.tick(timePassed);
 
 			draw();
 
@@ -99,13 +99,13 @@ public class Engine implements KeyListener, MouseListener, Environment {
 	}
 
 	interface Callbacks {
+		void init();
+
 		void keyPressed(KeyEvent e);
 
-		void update(long timePassed);
+		void tick(long timePassed);
 
 		void draw(Graphics2D g);
-
-		void init();
 	}
 
 	public void keyTyped(KeyEvent e) {
