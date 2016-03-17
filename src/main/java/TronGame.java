@@ -1,26 +1,17 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TronGame extends Core implements KeyListener, MouseListener, MouseMotionListener {
+public class TronGame extends Game implements Engine.Callbacks {
+
 	private List<Player> players;
 	private KeyboardController keyboardController;
 
 	public static final int MOVE_AMOUNT = 5;
 	public static final int LINE_SIZE = 10;
 
-	public void init() {
-		super.init();
-
-		Window w = sm.getFullScreenWindow();
-		w.addKeyListener(this);
-		w.addMouseListener(this);
-		w.addMouseMotionListener(this);
+	public TronGame() {
 
 		Player player1 = new Player(new Point(40, 40), Direction.RIGHT, Color.green);
 		Player player2 = new Player(new Point(600, 440), Direction.LEFT, Color.red);
@@ -36,20 +27,14 @@ public class TronGame extends Core implements KeyListener, MouseListener, MouseM
 				new KeyboardControls(player2, KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A));
 	}
 
-	public static void main(String[] args) {
-		new TronGame().run();
-	}
-
 	public void draw(Graphics2D graphics) {
 		movePlayers(players);
 
 		if (isCollision(players)) {
-			System.exit(0);
+			getEnvironment().exit();
 		}
 
 		addPlayerPaths(players);
-
-		drawBackground(graphics);
 
 		drawPlayers(graphics, players);
 	}
@@ -60,15 +45,9 @@ public class TronGame extends Core implements KeyListener, MouseListener, MouseM
 		}
 	}
 
-	private void drawBackground(Graphics2D graphics) {
-		graphics.setColor(Color.BLACK);
-		graphics.fillRect(0, 0, sm.getWidth(), sm.getHeight());
-	}
-
 	private void drawPlayers(Graphics2D graphics, List<Player> players) {
 		for (Player player : players) {
 			graphics.setColor(player.getColor());
-			System.out.println(player.getPath());
 			for (Point point : player.getPath()) {
 				graphics.fillRect(point.x, point.y, LINE_SIZE, LINE_SIZE);
 			}
@@ -101,18 +80,18 @@ public class TronGame extends Core implements KeyListener, MouseListener, MouseM
 				if (position.y > 0) {
 					position.y -= MOVE_AMOUNT;
 				} else {
-					position.y = sm.getHeight();
+					position.y = getEnvironment().getScreenHeight();
 				}
 				break;
 			case RIGHT:
-				if (position.x < sm.getWidth()) {
+				if (position.x < getEnvironment().getScreenWidth()) {
 					position.x += MOVE_AMOUNT;
 				} else {
 					position.x = 0;
 				}
 				break;
 			case DOWN:
-				if (position.y < sm.getHeight()) {
+				if (position.y < getEnvironment().getScreenHeight()) {
 					position.y += MOVE_AMOUNT;
 				} else {
 					position.y = 0;
@@ -122,7 +101,7 @@ public class TronGame extends Core implements KeyListener, MouseListener, MouseM
 				if (position.x > 0) {
 					position.x -= MOVE_AMOUNT;
 				} else {
-					position.x = sm.getWidth();
+					position.x = getEnvironment().getScreenWidth();
 				}
 				break;
 		}
@@ -133,35 +112,7 @@ public class TronGame extends Core implements KeyListener, MouseListener, MouseM
 		keyboardController.processEvent(e);
 	}
 
-	public void keyReleased(KeyEvent e) {
-
-	}
-
-	public void keyTyped(KeyEvent arg0) {
-
-	}
-
-	public void mouseClicked(MouseEvent e) {
-
-	}
-
-	public void mouseEntered(MouseEvent arg0) {
-	}
-
-	public void mouseExited(MouseEvent arg0) {
-	}
-
-	public void mousePressed(MouseEvent e) {
-	}
-
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	public void mouseDragged(MouseEvent e) {
-
-	}
-
-	public void mouseMoved(MouseEvent e) {
+	public void update(long timePassed) {
 
 	}
 }

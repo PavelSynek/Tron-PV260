@@ -14,10 +14,10 @@ public class ScreenManager {
 	public DisplayMode findFirstCompatibleMode(DisplayMode[] modes) {
 
 		DisplayMode goodModes[] = graphicsDevice.getDisplayModes();
-		for (int x = 0; x < modes.length; x++) {
-			for (int y = 0; y < goodModes.length; y++) {
-				if (displayModesMatch(modes[x], goodModes[y])) {
-					return modes[x];
+		for (DisplayMode mode : modes) {
+			for (DisplayMode goodMode : goodModes) {
+				if (displayModesMatch(mode, goodMode)) {
+					return mode;
 				}
 			}
 		}
@@ -64,9 +64,9 @@ public class ScreenManager {
 	}
 
 	public void update() {
-		Window w = graphicsDevice.getFullScreenWindow();
-		if (w != null) {
-			BufferStrategy bs = w.getBufferStrategy();
+		Window window = graphicsDevice.getFullScreenWindow();
+		if (window != null) {
+			BufferStrategy bs = window.getBufferStrategy();
 			if (!bs.contentsLost()) {
 				bs.show();
 			}
