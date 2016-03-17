@@ -23,6 +23,7 @@ public class Engine implements KeyListener, MouseListener, Environment {
 	private final Callbacks engineCallbacks;
 	private ScreenManager sm;
 	private boolean running;
+	private long totalTime;
 
 	public Engine(Callbacks engineCallbacks) {
 		this.engineCallbacks = engineCallbacks;
@@ -56,12 +57,10 @@ public class Engine implements KeyListener, MouseListener, Environment {
 	}
 
 	public void gameLoop() {
-		long totalTime = System.currentTimeMillis();
+		totalTime = System.currentTimeMillis();
 
 		while (running) {
-			long timePassed = System.currentTimeMillis() - totalTime;
-			totalTime += timePassed;
-			engineCallbacks.tick(timePassed);
+			tick();
 
 			draw();
 
@@ -70,6 +69,12 @@ public class Engine implements KeyListener, MouseListener, Environment {
 			} catch (Exception ex) {
 			}
 		}
+	}
+
+	private void tick() {
+		long timePassed = System.currentTimeMillis() - totalTime;
+		totalTime += timePassed;
+		engineCallbacks.tick(timePassed);
 	}
 
 	private void draw() {
@@ -101,42 +106,44 @@ public class Engine implements KeyListener, MouseListener, Environment {
 	interface Callbacks {
 		void init();
 
-		void keyPressed(KeyEvent e);
+		void keyPressed(KeyEvent event);
+
+		void mousePressed(MouseEvent event);
 
 		void tick(long timePassed);
 
-		void draw(Graphics2D g);
+		void draw(Graphics2D graphics);
 	}
 
-	public void keyTyped(KeyEvent e) {
-		// TODO: implement all listeners in callbacks
-	}
-
-	public void keyPressed(KeyEvent e) {
-		engineCallbacks.keyPressed(e);
-	}
-
-	public void keyReleased(KeyEvent e) {
+	public void keyTyped(KeyEvent event) {
 
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	public void keyPressed(KeyEvent event) {
+		engineCallbacks.keyPressed(event);
+	}
+
+	public void keyReleased(KeyEvent event) {
 
 	}
 
-	public void mousePressed(MouseEvent e) {
+	public void mouseClicked(MouseEvent event) {
 
 	}
 
-	public void mouseReleased(MouseEvent e) {
+	public void mousePressed(MouseEvent event) {
 
 	}
 
-	public void mouseEntered(MouseEvent e) {
+	public void mouseReleased(MouseEvent event) {
 
 	}
 
-	public void mouseExited(MouseEvent e) {
+	public void mouseEntered(MouseEvent event) {
+
+	}
+
+	public void mouseExited(MouseEvent event) {
 
 	}
 }

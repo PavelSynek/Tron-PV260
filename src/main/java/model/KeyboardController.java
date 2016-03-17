@@ -9,7 +9,7 @@ public class KeyboardController {
 	private final List<PlayerControls> playerControlsList;
 
 	public KeyboardController() {
-		playerControlsList = new ArrayList<PlayerControls>();
+		playerControlsList = new ArrayList<>();
 	}
 
 	public void addControls(PlayerControls playerControls) {

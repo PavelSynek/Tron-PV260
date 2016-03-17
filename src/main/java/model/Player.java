@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements PathCollidable {
 
 	private Point position;
 	private Direction direction;
@@ -15,7 +15,7 @@ public class Player {
 		this.position = position;
 		this.direction = direction;
 		this.color = color;
-		this.path = new ArrayList<Point>();
+		this.path = new ArrayList<>();
 	}
 
 	public Point getPosition() {

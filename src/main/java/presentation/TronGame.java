@@ -8,6 +8,7 @@ import model.TronModel;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class TronGame extends Game {
@@ -30,16 +31,24 @@ public class TronGame extends Game {
 
 	private TronModel.CollisionListener collisionListener = () -> getEnvironment().exit();
 
+	@Override
 	public void tick(long timePassed) {
-		tronModel.movePlayers();
+		tronModel.tick();
 	}
 
+	@Override
 	public void draw(Graphics2D graphics) {
 		drawPlayers(graphics, tronModel.getPlayers());
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		tronModel.processEvent(e);
+	}
+
+	@Override
+	public void mousePressed(MouseEvent event) {
+		// TODO: handle mouse input
 	}
 
 	private void drawPlayers(Graphics2D graphics, List<Player> players) {
