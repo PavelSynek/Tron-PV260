@@ -1,4 +1,6 @@
-public abstract class Game {
+package engine;
+
+public abstract class Game implements Engine.Callbacks {
 
 	private Environment environment;
 

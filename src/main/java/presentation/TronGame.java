@@ -1,9 +1,17 @@
+package presentation;
+
+import engine.Game;
+import model.Direction;
+import model.KeyboardController;
+import model.KeyboardControls;
+import model.Player;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TronGame extends Game implements Engine.Callbacks {
+public class TronGame extends Game {
 
 	private List<Player> players;
 	private KeyboardController keyboardController;
@@ -15,16 +23,20 @@ public class TronGame extends Game implements Engine.Callbacks {
 
 		Player player1 = new Player(new Point(40, 40), Direction.RIGHT, Color.green);
 		Player player2 = new Player(new Point(600, 440), Direction.LEFT, Color.red);
+		Player player3 = new Player(new Point(400, 200), Direction.LEFT, Color.yellow);
 
 		players = new ArrayList<Player>();
 		players.add(player1);
 		players.add(player2);
+		players.add(player3);
 
 		keyboardController = new KeyboardController();
 		keyboardController.addControls(
 				new KeyboardControls(player1, KeyEvent.VK_UP, KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT));
 		keyboardController.addControls(
 				new KeyboardControls(player2, KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A));
+		keyboardController.addControls(
+				new KeyboardControls(player3, KeyEvent.VK_U, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_H));
 	}
 
 	public void draw(Graphics2D graphics) {
