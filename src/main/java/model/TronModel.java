@@ -11,14 +11,20 @@ public class TronModel {
 
 	private final List<Player> players;
 	private final KeyboardController keyboardController;
+	private final CollisionListener collisionListener;
 	private final int boardWidth;
 	private final int boardHeight;
 
-	public TronModel(int boardWidth, int boardHeight) {
+	public interface CollisionListener {
+		void onCollision();
+	}
+
+	public TronModel(int boardWidth, int boardHeight, CollisionListener listener) {
 		this.boardWidth = boardWidth;
 		this.boardHeight = boardHeight;
+		collisionListener = listener;
 
-		players = new ArrayList<Player>();
+		players = new ArrayList<>();
 		keyboardController = new KeyboardController();
 	}
 
@@ -38,6 +44,16 @@ public class TronModel {
 	public void movePlayers() {
 		for (Player player : players) {
 			movePlayer(player);
+		}
+
+		checkCollisions();
+
+		addPlayerPaths(players);
+	}
+
+	private void addPlayerPaths(List<Player> players) {
+		for (Player player : players) {
+			player.getPath().add(player.getPosition());
 		}
 	}
 
@@ -74,5 +90,17 @@ public class TronModel {
 				break;
 		}
 		player.setPosition(position);
+	}
+
+	private void checkCollisions() {
+		for (Player player1 : players) {
+			for (Player player2 : players) {
+				for (Point point : player2.getPath()) {
+					if (point.equals(player1.getPosition())) {
+						collisionListener.onCollision();
+					}
+				}
+			}
+		}
 	}
 }

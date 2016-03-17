@@ -17,7 +17,7 @@ public class TronGame extends Game {
 	public static final int LINE_SIZE = 10;
 
 	public void init() {
-		tronModel = new TronModel(getEnvironment().getScreenWidth(), getEnvironment().getScreenHeight());
+		tronModel = new TronModel(getEnvironment().getScreenWidth(), getEnvironment().getScreenHeight(), collisionListener);
 
 		Player player1 = new Player(new Point(40, 40), Direction.RIGHT, Color.green);
 		Player player2 = new Player(new Point(600, 440), Direction.LEFT, Color.red);
@@ -29,23 +29,16 @@ public class TronGame extends Game {
 
 	}
 
+	private TronModel.CollisionListener collisionListener = () -> getEnvironment().exit();
+
 	public void draw(Graphics2D graphics) {
 		tronModel.movePlayers();
 
-		if (isCollision(tronModel.getPlayers())) {
-			getEnvironment().exit();
-		}
 
-		addPlayerPaths(tronModel.getPlayers());
 
 		drawPlayers(graphics, tronModel.getPlayers());
 	}
 
-	private void addPlayerPaths(List<Player> players) {
-		for (Player player : players) {
-			player.getPath().add(player.getPosition());
-		}
-	}
 
 	private void drawPlayers(Graphics2D graphics, List<Player> players) {
 		for (Player player : players) {
@@ -56,18 +49,6 @@ public class TronGame extends Game {
 		}
 	}
 
-	private boolean isCollision(List<Player> players) {
-		for (Player player1 : players) {
-			for (Player player2 : players) {
-				for (Point point : player2.getPath()) {
-					if (point.equals(player1.getPosition())) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
 
 	public void keyPressed(KeyEvent e) {
 		tronModel.processEvent(e);
