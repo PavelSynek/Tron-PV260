@@ -41,6 +41,8 @@ public class Engine implements KeyListener, MouseListener, Environment {
 		window.addKeyListener(this);
 		window.addMouseListener(this);
 
+		engineCallbacks.init();
+
 		running = true;
 	}
 
@@ -102,6 +104,8 @@ public class Engine implements KeyListener, MouseListener, Environment {
 		void update(long timePassed);
 
 		void draw(Graphics2D g);
+
+		void init();
 	}
 
 	public void keyTyped(KeyEvent e) {

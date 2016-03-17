@@ -6,19 +6,19 @@ import java.util.List;
 
 public class KeyboardController {
 
-	private final List<KeyboardControls> keyboards;
+	private final List<PlayerControls> playerControlsList;
 
 	public KeyboardController() {
-		keyboards = new ArrayList<KeyboardControls>();
+		playerControlsList = new ArrayList<PlayerControls>();
 	}
 
-	public void addControls(KeyboardControls controls) {
-		keyboards.add(controls);
+	public void addControls(PlayerControls playerControls) {
+		playerControlsList.add(playerControls);
 	}
 
 	public void processEvent(KeyEvent keyEvent) {
-		for (KeyboardControls keyboardControls : keyboards) {
-			keyboardControls.processEvent(keyEvent);
+		for (PlayerControls playerControls : playerControlsList) {
+			playerControls.processEvent(keyEvent);
 		}
 	}
 }
