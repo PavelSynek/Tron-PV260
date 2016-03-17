@@ -9,6 +9,7 @@ import java.util.List;
 
 public class TronGame extends Core implements KeyListener, MouseListener, MouseMotionListener {
 	private List<Player> players;
+	private KeyboardController keyboardController;
 
 	public static final int MOVE_AMOUNT = 5;
 	public static final int LINE_SIZE = 10;
@@ -27,6 +28,12 @@ public class TronGame extends Core implements KeyListener, MouseListener, MouseM
 		players = new ArrayList<Player>();
 		players.add(player1);
 		players.add(player2);
+
+		keyboardController = new KeyboardController();
+		keyboardController.addControls(
+				new KeyboardControls(player1, KeyEvent.VK_UP, KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT));
+		keyboardController.addControls(
+				new KeyboardControls(player2, KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A));
 	}
 
 	public static void main(String[] args) {
@@ -123,43 +130,8 @@ public class TronGame extends Core implements KeyListener, MouseListener, MouseM
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			if (player1.getDirection() != Direction.DOWN) {
-				player1.setDirection(Direction.UP);
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			if (player1.getDirection() != Direction.UP) {
-				player1.setDirection(Direction.DOWN);
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			if (player1.getDirection() != Direction.LEFT) {
-				player1.setDirection(Direction.RIGHT);
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			if (player1.getDirection() != Direction.RIGHT) {
-				player1.setDirection(Direction.LEFT);
-			}
-		}
-		if (e.getKeyCode() == KeyEvent.VK_W) {
-			if (player2.getDirection() != Direction.DOWN) {
-				player2.setDirection(Direction.UP);
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_S) {
-			if (player2.getDirection() != Direction.UP) {
-				player2.setDirection(Direction.DOWN);
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_D) {
-			if (player2.getDirection() != Direction.LEFT) {
-				player2.setDirection(Direction.RIGHT);
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_A) {
-			if (player2.getDirection() != Direction.RIGHT) {
-				player2.setDirection(Direction.LEFT);
-			}
-		}
+		keyboardController.processEvent(e);
 	}
-
-	private void
 
 	public void keyReleased(KeyEvent e) {
 

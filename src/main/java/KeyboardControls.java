@@ -1,6 +1,7 @@
 import java.awt.event.KeyEvent;
 
 public class KeyboardControls {
+
 	private final Player player;
 	private final int up;
 	private final int right;
@@ -15,18 +16,16 @@ public class KeyboardControls {
 		this.left = left;
 	}
 
-	public Direction checkDirection(KeyEvent event) {
+	public void processEvent(KeyEvent event) {
 		int keyCode = event.getKeyCode();
-		if (keyCode == up) {
-			return Direction.UP;
-		} else if (keyCode == right) {
-			return Direction.RIGHT;
-		} else if (keyCode == down) {
-			return Direction.DOWN;
-		} else if (keyCode == left) {
-			return Direction.LEFT;
-		} else {
-			return null;
+		if (keyCode == up && player.getDirection() != Direction.DOWN) {
+			player.setDirection(Direction.UP);
+		} else if (keyCode == right && player.getDirection() != Direction.LEFT) {
+			player.setDirection(Direction.RIGHT);
+		} else if (keyCode == down && player.getDirection() != Direction.UP) {
+			player.setDirection(Direction.DOWN);
+		} else if (keyCode == left && player.getDirection() != Direction.RIGHT) {
+			player.setDirection(Direction.LEFT);
 		}
 	}
 }
