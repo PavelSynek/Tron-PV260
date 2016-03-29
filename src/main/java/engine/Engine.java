@@ -152,7 +152,7 @@ public class Engine implements KeyListener, MouseListener, Environment {
 	}
 
 	public void mousePressed(MouseEvent event) {
-
+		engineCallbacks.mousePressed(event);
 	}
 
 	public void mouseReleased(MouseEvent event) {

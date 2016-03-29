@@ -1,14 +1,13 @@
 package model;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KeyboardController {
+public class InputController {
 
 	private final List<PlayerControls> playerControlsList;
 
-	public KeyboardController() {
+	public InputController() {
 		playerControlsList = new ArrayList<>();
 	}
 
@@ -16,9 +15,9 @@ public class KeyboardController {
 		playerControlsList.add(playerControls);
 	}
 
-	public void processEvent(KeyEvent keyEvent) {
+	public void processEvent(int key) {
 		for (PlayerControls playerControls : playerControlsList) {
-			playerControls.processEvent(keyEvent);
+			playerControls.processEvent(key);
 		}
 	}
 }

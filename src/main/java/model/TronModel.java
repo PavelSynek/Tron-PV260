@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,35 +9,36 @@ public class TronModel {
 
 	private final List<Player> players;
 
-	private final KeyboardController keyboardController;
+	private final InputController inputController;
 	private final int boardWidth;
 	private final int boardHeight;
 
 	public TronModel(int boardWidth, int boardHeight) {
 		players = new ArrayList<>();
-		keyboardController = new KeyboardController();
+		inputController = new InputController();
 		this.boardWidth = boardWidth;
 		this.boardHeight = boardHeight;
 	}
 
-	public void addPlayer(Player player, KeyboardControls keyboardControls) {
+	public void addPlayer(Player player, KeySet keySet) {
 		players.add(player);
-		keyboardController.addControls(new PlayerControls(player, keyboardControls));
+		inputController.addControls(new KeyboardControls(player, keySet));
+	}
+
+	public void addPlayer(Player player, MouseSet mouseSet) {
+		players.add(player);
+		inputController.addControls(new MouseControls(player, mouseSet));
 	}
 
 	public List<Player> getPlayers() {
 		return players;
 	}
 
-	public void processEvent(KeyEvent event) {
-		keyboardController.processEvent(event);
+	public void processEvent(int key) {
+		inputController.processEvent(key);
 	}
 
-	public void tick() {
-		movePlayers();
-	}
-
-	private void movePlayers() {
+	public void movePlayers() {
 		for (Player player : players) {
 			player.getDirection().moveIn(player, MOVE_AMOUNT, boardWidth, boardHeight);
 		}

@@ -2,7 +2,8 @@ package presentation;
 
 import engine.Game;
 import model.Direction;
-import model.KeyboardControls;
+import model.KeySet;
+import model.MouseSet;
 import model.Player;
 import model.PointsCollidable;
 import model.TronModel;
@@ -25,14 +26,14 @@ public class TronGame extends Game {
 		Player player2 = new Player(new Point(600, 440), Direction.LEFT, Color.red);
 		Player player3 = new Player(new Point(400, 200), Direction.LEFT, Color.yellow);
 
-		tronModel.addPlayer(player1, new KeyboardControls(KeyEvent.VK_UP, KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT));
-		tronModel.addPlayer(player2, new KeyboardControls(KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A));
-		tronModel.addPlayer(player3, new KeyboardControls(KeyEvent.VK_U, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_H));
+		tronModel.addPlayer(player1, new KeySet(KeyEvent.VK_UP, KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT));
+		tronModel.addPlayer(player2, new KeySet(KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A));
+		tronModel.addPlayer(player3, new MouseSet(MouseEvent.BUTTON1, MouseEvent.BUTTON3));
 	}
 
 	@Override
 	public void tick(long timePassed) {
-		tronModel.tick();
+		tronModel.movePlayers();
 	}
 
 	@Override
@@ -51,13 +52,13 @@ public class TronGame extends Game {
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		tronModel.processEvent(e);
+	public void keyPressed(KeyEvent event) {
+		tronModel.processEvent(event.getKeyCode());
 	}
 
 	@Override
 	public void mousePressed(MouseEvent event) {
-		// TODO: handle mouse input
+		tronModel.processEvent(event.getButton());
 	}
 
 	private void drawPlayers(Graphics2D graphics, List<Player> players) {

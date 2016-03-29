@@ -1,32 +1,25 @@
 package model;
 
-public class KeyboardControls {
+public class KeyboardControls implements PlayerControls {
 
-	private final int up;
-	private final int right;
-	private final int down;
-	private final int left;
+	private final KeySet keySet;
+	private final Player player;
 
-	public KeyboardControls(int up, int right, int down, int left) {
-		this.up = up;
-		this.right = right;
-		this.down = down;
-		this.left = left;
+	public KeyboardControls(Player player, KeySet keySet) {
+		this.player = player;
+		this.keySet = keySet;
 	}
 
-	public int getUp() {
-		return up;
-	}
-
-	public int getRight() {
-		return right;
-	}
-
-	public int getDown() {
-		return down;
-	}
-
-	public int getLeft() {
-		return left;
+	@Override
+	public void processEvent(int key) {
+		if (key == keySet.getUp() && player.getDirection() != Direction.DOWN) {
+			player.setDirection(Direction.UP);
+		} else if (key == keySet.getRight() && player.getDirection() != Direction.LEFT) {
+			player.setDirection(Direction.RIGHT);
+		} else if (key == keySet.getDown() && player.getDirection() != Direction.UP) {
+			player.setDirection(Direction.DOWN);
+		} else if (key == keySet.getLeft() && player.getDirection() != Direction.RIGHT) {
+			player.setDirection(Direction.LEFT);
+		}
 	}
 }

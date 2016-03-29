@@ -5,6 +5,16 @@ import java.awt.*;
 public enum Direction {
 	UP() {
 		@Override
+		Direction toLeft() {
+			return LEFT;
+		}
+
+		@Override
+		Direction toRight() {
+			return RIGHT;
+		}
+
+		@Override
 		Point calculateMovement(Point position, int speed, int boardWidth, int boardHeight) {
 			Point point = new Point(position);
 			if (point.y > 0) {
@@ -17,6 +27,16 @@ public enum Direction {
 	},
 	RIGHT() {
 		@Override
+		Direction toLeft() {
+			return UP;
+		}
+
+		@Override
+		Direction toRight() {
+			return DOWN;
+		}
+
+		@Override
 		Point calculateMovement(Point position, int speed, int boardWidth, int boardHeight) {
 			Point point = new Point(position);
 			if (point.x < boardWidth) {
@@ -27,6 +47,16 @@ public enum Direction {
 			return point;
 		}
 	}, DOWN() {
+		@Override
+		Direction toLeft() {
+			return RIGHT;
+		}
+
+		@Override
+		Direction toRight() {
+			return LEFT;
+		}
+
 		@Override
 		Point calculateMovement(Point position, int speed, int boardWidth, int boardHeight) {
 			Point point = new Point(position);
@@ -39,6 +69,16 @@ public enum Direction {
 		}
 	}, LEFT() {
 		@Override
+		Direction toLeft() {
+			return DOWN;
+		}
+
+		@Override
+		Direction toRight() {
+			return UP;
+		}
+
+		@Override
 		Point calculateMovement(Point position, int speed, int boardWidth, int boardHeight) {
 			Point point = new Point(position);
 			if (point.x > 0) {
@@ -49,6 +89,10 @@ public enum Direction {
 			return point;
 		}
 	};
+
+	abstract Direction toLeft();
+
+	abstract Direction toRight();
 
 	abstract Point calculateMovement(Point position, int speed, int boardWidth, int boardHeight);
 
