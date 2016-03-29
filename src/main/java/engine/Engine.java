@@ -1,11 +1,14 @@
 package engine;
 
+import model.PointsCollidable;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 public class Engine implements KeyListener, MouseListener, Environment {
 
@@ -64,6 +67,8 @@ public class Engine implements KeyListener, MouseListener, Environment {
 
 			draw();
 
+			checkCollisions();
+
 			try {
 				Thread.sleep(20);
 			} catch (Exception ex) {
@@ -83,6 +88,17 @@ public class Engine implements KeyListener, MouseListener, Environment {
 		engineCallbacks.draw(graphics);
 		graphics.dispose();
 		sm.update();
+	}
+
+	private void checkCollisions() {
+		List<? extends PointsCollidable> collidables = engineCallbacks.getCollidables();
+		for (PointsCollidable collidable1 : collidables) {
+			for (PointsCollidable collidable2 : collidables) {
+				if (collidable1.collidesWith(collidable2)) {
+					engineCallbacks.onCollision(collidable1, collidable2);
+				}
+			}
+		}
 	}
 
 	private void drawBackground(Graphics2D graphics) {
@@ -113,6 +129,10 @@ public class Engine implements KeyListener, MouseListener, Environment {
 		void tick(long timePassed);
 
 		void draw(Graphics2D graphics);
+
+		void onCollision(PointsCollidable first, PointsCollidable second);
+
+		List<? extends PointsCollidable> getCollidables();
 	}
 
 	public void keyTyped(KeyEvent event) {

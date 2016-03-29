@@ -4,6 +4,7 @@ import engine.Game;
 import model.Direction;
 import model.KeyboardControls;
 import model.Player;
+import model.PointsCollidable;
 import model.TronModel;
 
 import java.awt.*;
@@ -18,7 +19,7 @@ public class TronGame extends Game {
 	public static final int LINE_SIZE = 10;
 
 	public void init() {
-		tronModel = new TronModel(getEnvironment().getScreenWidth(), getEnvironment().getScreenHeight(), collisionListener);
+		tronModel = new TronModel(getEnvironment().getScreenWidth(), getEnvironment().getScreenHeight());
 
 		Player player1 = new Player(new Point(40, 40), Direction.RIGHT, Color.green);
 		Player player2 = new Player(new Point(600, 440), Direction.LEFT, Color.red);
@@ -29,8 +30,6 @@ public class TronGame extends Game {
 		tronModel.addPlayer(player3, new KeyboardControls(KeyEvent.VK_U, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_H));
 	}
 
-	private TronModel.CollisionListener collisionListener = () -> getEnvironment().exit();
-
 	@Override
 	public void tick(long timePassed) {
 		tronModel.tick();
@@ -39,6 +38,16 @@ public class TronGame extends Game {
 	@Override
 	public void draw(Graphics2D graphics) {
 		drawPlayers(graphics, tronModel.getPlayers());
+	}
+
+	@Override
+	public void onCollision(PointsCollidable first, PointsCollidable second) {
+		getEnvironment().exit();
+	}
+
+	@Override
+	public List<? extends PointsCollidable> getCollidables() {
+		return tronModel.getPlayers();
 	}
 
 	@Override
