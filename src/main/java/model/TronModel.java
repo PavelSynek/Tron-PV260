@@ -6,17 +6,19 @@ import java.util.List;
 
 public class TronModel {
 
+	private static final int MOVE_AMOUNT = 5;
+
 	private final List<Player> players;
 
 	private final KeyboardController keyboardController;
-	private final PlayerMover playerMover;
-	private final PlayerPathUpdater playerPathUpdater;
+	private final int boardWidth;
+	private final int boardHeight;
 
 	public TronModel(int boardWidth, int boardHeight) {
 		players = new ArrayList<>();
 		keyboardController = new KeyboardController();
-		playerMover = new PlayerMover(boardWidth, boardHeight);
-		playerPathUpdater = new PlayerPathUpdater();
+		this.boardWidth = boardWidth;
+		this.boardHeight = boardHeight;
 	}
 
 	public void addPlayer(Player player, KeyboardControls keyboardControls) {
@@ -33,9 +35,13 @@ public class TronModel {
 	}
 
 	public void tick() {
-		playerMover.movePlayers(players);
+		movePlayers();
+	}
 
-		playerPathUpdater.updatePaths(players);
+	private void movePlayers() {
+		for (Player player : players) {
+			player.getDirection().moveIn(player, MOVE_AMOUNT, boardWidth, boardHeight);
+		}
 	}
 
 }
